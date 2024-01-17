@@ -20,6 +20,6 @@ public class BanFilter : ActionFilterAttribute, IActionFilter
         if (!user.IsBanned) return;
 
         context.Result = new ForbidResult();
-        context.HttpContext.Response.WriteAsync("Jestes zablokowany, nie możesz dodać treningu");
+        context.HttpContext.Response.WriteAsync("Jestes zablokowany, nie możesz dodać treningu").GetAwaiter().GetResult();
     }
 }
