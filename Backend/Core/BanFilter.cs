@@ -9,17 +9,11 @@ public class BanFilter : ActionFilterAttribute, IActionFilter
 {
     public override void OnActionExecuting(ActionExecutingContext context)
     {
-        var userId = context.HttpContext.RequestServices.GetService<ICurrentUserService>()?.UserId;
-        var dbContext = context.HttpContext.RequestServices.GetService<ApplicationDbContext>();
-        if (userId == null)
-            throw new InvalidOperationException();
-        if (dbContext is null)
-            throw new InvalidOperationException();
-
-        var user = dbContext.Users.First(u => u.Id == userId);
-        if (!user.IsBanned) return;
+         _ = bool.TryParse(context.HttpContext.RequestServices.GetService<ICurrentUserService>()?.IsBanned,
+            out var isBannedResult);
+        if (!isBannedResult) return;
 
         context.Result = new ForbidResult();
-        context.HttpContext.Response.WriteAsync("Jestes zablokowany, nie możesz dodać treningu").GetAwaiter().GetResult();
+        context.HttpContext.Response.WriteAsync("Jestes zablokowany, nie możesz wykonać tej operacji").GetAwaiter().GetResult();
     }
 }

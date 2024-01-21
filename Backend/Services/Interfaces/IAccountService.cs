@@ -9,5 +9,5 @@ public interface IAccountService
     Task<string> Login(LoginUserDto request);
     int? GetCurrentUserId();
     string? GetCurrentUserRole();
-    Task<bool?> GetCurrentUserBanStatus();
+    string? GetCurrentUserBanStatus();
 }

@@ -44,8 +44,8 @@ public class AccountController : ControllerBase
 
     [HttpGet("currentUserBanStatus")]
     [Authorize]
-    public async Task<IActionResult> CurrentUserBanStatus()
+    public IActionResult CurrentUserBanStatus()
     {
-        return Ok(await _accountService.GetCurrentUserBanStatus());
+        return Ok(_accountService.GetCurrentUserBanStatus());
     }
 }

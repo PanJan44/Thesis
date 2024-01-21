@@ -36,10 +36,8 @@ public class AccountService : IAccountService
 
     public string? GetCurrentUserRole() => _currentUserService.Role;
 
-    public async Task<bool?> GetCurrentUserBanStatus()
-    {
-        return (await _dbContext.Users.FirstAsync(u => u.Id == _currentUserService.UserId)).IsBanned;
-    }
+    public string? GetCurrentUserBanStatus() => _currentUserService.IsBanned;
+
 
     public async Task<int> Register(RegisterUserDto request)
     {
@@ -77,6 +75,7 @@ public class AccountService : IAccountService
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Name, user.Nickname),
             new(ClaimTypes.Role, user.Role.Name),
+            new("BanStatus", user.IsBanned.ToString()),
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authSettings.JwtKey));
